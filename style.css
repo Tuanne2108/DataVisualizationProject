@@ -39,22 +39,6 @@ main .title{
     font-weight: 600;
     margin-bottom: 10px;
 }
-main .breadcrumbs{
-    display: flex;
-    grid-gap:6px;
-}
-main .breadcrumbs li,
-main .breadcrumbs li a {
-	font-size: 14px;
-}
-main .breadcrumbs li a {
-	color: var(--blue);
-}
-main .breadcrumbs li a.active,
-main .breadcrumbs li.divider {
-	color: var(--dark-grey);
-	pointer-events: none;
-}
 
 main .info_data{
     margin-top: 36px;
