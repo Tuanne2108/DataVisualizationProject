@@ -15,7 +15,7 @@ var rowConverter = (d) => {
 
 function barChart(selectedYear) {
     d3.csv(
-        "https://gist.githubusercontent.com/Tuanne2108/d10d78e8e1533927347d3ce2d04c714f/raw/97638632aef8770337415ce610cc7a14ce67e2dc/covid19_confirmed.csv",
+        "https://gist.githubusercontent.com/Tuanne2108/22533aee962f55b7e2528547c0928d73/raw/4738816f752ce830a097fc2354d84e7df6f22966/gistfile1.txt",
         rowConverter
     ).then((data) => {
         let filteredData = data.filter((d) => d.year === selectedYear);
