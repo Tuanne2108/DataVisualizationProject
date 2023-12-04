@@ -4,19 +4,6 @@
 	padding: 0;
 	box-sizing: border-box;
 }
-
-:root {
-	--grey: #F1F0F6;
-	--dark-grey: #8D8D8D;
-	--light: #fff;
-	--dark: #000;
-	--green: #81D43A;
-	--light-green: #E3FFCB;
-	--blue: #1775F1;
-	--light-blue: #D0E4FF;
-	--dark-blue: #0C5FCD;
-	--red: #FC3B56;
-}
 html {
 	overflow-x: hidden;
 }
@@ -62,27 +49,4 @@ main .card .head h2{
 }
 main .card .head .icon{
     font-size: 20px;
-}
-.bar-chart {
-	position: relative;
-}
-
-.slider {
-	position: absolute;
-	bottom: 30px;
-	width: 100%;
-	
-}
-input[type="range"] {
-	width: 60%;
-	margin-left: 110px;
-	display: block;
-}
-.year-text {
-	position: absolute;
-	top: 50%;
-	transform: translate(100%, -50%);
-	margin-left: 35px; 
-	font-size: 16px;
-	font-weight: bold;
 }
