@@ -1,52 +1,42 @@
 * {
-	font-family: 'Open Sans', sans-serif;
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 html {
-	overflow-x: hidden;
+    overflow-x: hidden;
 }
 body {
-	background: var(--grey);
-	overflow-x: hidden;
+    background: lightgray;
+    overflow-x: hidden;
 }
 a {
-	text-decoration: none;
+    text-decoration: none;
 }
 li {
-	list-style: none;
+    list-style: none;
 }
-main{
+main {
     width: 100%;
     padding: 24px 20px 20px 20px;
 }
-main .title{
+main .title {
     font-size: 28px;
     font-weight: 600;
     margin-bottom: 10px;
 }
+.map-chart {
+    background-color: grey;
+}
 
-main .info_data{
-    margin-top: 36px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    grid-gap: 20px;
-}
-main .info_data .card{
-    padding: 20px;
-    border-radius: 10px;
-    background: var(--light);
-    box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
-}
-main .card .head {
-    display: flex;
-    justify-content: space-between;
-}
-main .card .head h2{
-    font-size: 28px;
-    font-weight: 600;
-}
-main .card .head .icon{
+.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 10px;
     font-size: 20px;
+    background: lightblue;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    pointer-events: none;
 }
