@@ -109,7 +109,7 @@ function mapChart() {
 
     // Load CSV data
     d3.csv(
-        "https://gist.githubusercontent.com/Tuanne2108/f49e31cda7defac3cde2d142ac2ffa34/raw/5025d180c6dfc5268041d031b1d4e22bb3422a3c/project_data",
+        "https://gist.githubusercontent.com/Tuanne2108/f3e20d4752299d6f408e199bea274ddb/raw/ee1cb3caa5102f5ed4e134f10a4bcfcd4475675a/education",
         rowConverter
     ).then(function (data) {
         console.log(data);

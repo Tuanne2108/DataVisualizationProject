@@ -30,7 +30,7 @@ main .title {
     background-color: grey;
 }
 
-.tooltip {
+.tooltip, #scatter-tooltips{
     position: absolute;
     text-align: center;
     padding: 10px;
@@ -40,3 +40,4 @@ main .title {
     border-radius: 3px;
     pointer-events: none;
 }
+
