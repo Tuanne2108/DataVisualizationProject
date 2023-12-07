@@ -5,8 +5,9 @@ const padding = 50;
 var rowConverter = (d) => {
     return {
         area: d["Countries and areas"],
-        lat: parseFloat(d["Latitude "]),
+        lat: parseFloat(d.Latitude),
         long: parseFloat(d.Longitude),
+        continent:d['Continent'],
         math_proficency_grade_2_3: parseFloat(d.Grade_2_3_Proficiency_Math),
         reading_proficency_grade_2_3: parseFloat(
             d.Grade_2_3_Proficiency_Reading
@@ -26,11 +27,36 @@ var rowConverter = (d) => {
 
 function scatterPlot() {
     d3.csv(
-        "https://gist.githubusercontent.com/Tuanne2108/f3e20d4752299d6f408e199bea274ddb/raw/ee1cb3caa5102f5ed4e134f10a4bcfcd4475675a/education",
+        "https://gist.githubusercontent.com/Tuanne2108/f3e20d4752299d6f408e199bea274ddb/raw/53fe0b316fb359070d5ba84d0d47e4c28dceb0a7/education",
         rowConverter
     ).then((data) => {
         console.log(data);
-        data = data.filter((d) => !isNaN(d.lat) && !isNaN(d.long) > 0);
+        let filteredData = data.filter((d) => {
+            switch (selectedLevel) {
+                case "Grade 2-3":
+                    return (
+                        !isNaN(d.math_proficency_grade_2_3) &&
+                        !isNaN(d.reading_proficency_grade_2_3)
+                    );
+                case "Primary End":
+                    return (
+                        !isNaN(d.math_proficency_primary_end) &&
+                        !isNaN(d.reading_proficency_primary_end)
+                    );
+                case "Secondary End":
+                    return (
+                        !isNaN(d.math_proficency_secondary_end) &&
+                        !isNaN(d.reading_proficency_secondary_end)
+                    );
+                default:
+                    return true; // Default to show all data
+            }
+        });
+        console.log(filteredData);
+        // Select the existing scatterplot svg and remove it
+        d3.select(".scatterplot svg").remove();
+
+        // Create a new scatterplot svg
         const selectedCountries = [
             "Nigeria",
             "South Africa",
@@ -120,11 +146,32 @@ function scatterPlot() {
             .on("mouseover", function (event, d) {
                 const xPosition = event.pageX;
                 const yPosition = event.pageY - 150;
+
+                let mathProficiency, readingProficiency;
+
+                switch (selectedLevel) {
+                    case "Grade 2-3":
+                        mathProficiency = d.math_proficency_grade_2_3;
+                        readingProficiency = d.reading_proficency_grade_2_3;
+                        break;
+                    case "Primary End":
+                        mathProficiency = d.math_proficency_primary_end;
+                        readingProficiency = d.reading_proficency_primary_end;
+                        break;
+                    case "Secondary End":
+                        mathProficiency = d.math_proficency_secondary_end;
+                        readingProficiency = d.reading_proficency_secondary_end;
+                        break;
+                    default:
+                        mathProficiency = 0; // Default values or handle accordingly
+                        readingProficiency = 0;
+                }
+
                 d3.select("#scatter-tooltips")
                     .html(
                         `<p><strong>${d.area}</strong></p>
-                           <p>Math Proficiency (Grade 2-3): ${d.math_proficency_grade_2_3} thousands</p>
-                           <p>Reading Proficiency (Grade 2-3): ${d.reading_proficency_grade_2_3} thousands</p>
+                           <p>Math Proficiency (${selectedLevel}): ${mathProficiency} thousands</p>
+                           <p>Reading Proficiency (${selectedLevel}): ${readingProficiency} thousands</p>
                            <p>Latitude: ${d.lat}</p>
                            <p>Longitude: ${d.long}</p>`
                     )
@@ -133,7 +180,8 @@ function scatterPlot() {
                     .style("opacity", 0.9);
             })
             .on("mouseout", function () {
-                const isVietnam = d3.select(this).attr("data-is-vietnam") === "true";
+                const isVietnam =
+                    d3.select(this).attr("data-is-vietnam") === "true";
                 d3.select(this).attr("fill", isVietnam ? "red" : "green");
                 d3.select("#scatter-tooltips").style("opacity", 0);
             });

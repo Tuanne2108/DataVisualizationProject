@@ -30,7 +30,8 @@ main .title {
     background-color: grey;
 }
 
-.tooltip, #scatter-tooltips{
+.tooltip,
+#scatter-tooltips {
     position: absolute;
     text-align: center;
     padding: 10px;
@@ -41,3 +42,30 @@ main .title {
     pointer-events: none;
 }
 
+.form-select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    width: 200px;
+    cursor: pointer;
+}
+
+.form-select option {
+    background-color: #fff;
+    color: #000;
+}
+.form-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+label {
+    font-weight: bold;
+    margin-bottom: 5px; 
+}
+.form-select, #continentSelect {
+    width: 100%; 
+    margin-bottom: 10px; 
+}

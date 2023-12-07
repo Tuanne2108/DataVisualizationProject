@@ -14,8 +14,6 @@
             crossorigin="anonymous">
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <script src="/scripts/scatterplot.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
         <link rel="stylesheet" href="/style.css">
         <title>World Education</title>
     </head>
@@ -53,33 +51,39 @@
         </header>
         <main>
             <h1>Math and Reading Proficiency of each level</h1>
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Educational Level
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Grade 2-3</a></li>
-                    <li><a class="dropdown-item" href="#">Primary End</a></li>
-                    <li><a class="dropdown-item" href="#">Secondary End</a></li>
-                </ul>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Continent
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Africa</a></li>
-                    <li><a class="dropdown-item" href="#">Asia</a></li>
-                    <li><a class="dropdown-item" href="#">Europe</a></li>
-                    <li><a class="dropdown-item" href="#">North America</a></li>
-                    <li><a class="dropdown-item" href="#">South America</a></li>
-                    <li><a class="dropdown-item" href="#">Oceania</a></li>
-                </ul>
+            <div class="selection-container">
+                <div class="row row-cols-2">
+                    <div class="col">
+                        <label for="educational_level">Choose educational level:</label>
+
+                    </div>
+                    <div class="col">
+                        <label for="educational_level">Choose continent:</label>
+
+                    </div>
+                    <div class="col">
+                        <select id="educational_level" class="form-select"
+                            aria-label="Educational Level"
+                            onchange="updateData(this.value)">
+                            <option value="Grade 2-3" selected>Grade 2-3</option>
+                            <option value="Primary End">Primary End</option>
+                            <option value="Secondary End">Secondary End</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" id="continentSelect"
+                            aria-label="Select Continent">
+                            <option value="Africa">Africa</option>
+                            <option value="Asia">Asia</option>
+                            <option value="Europe">Europe</option>
+                            <option value="North America">North America</option>
+                            <option value="South America">South America</option>
+                            <option value="Oceania">Oceania</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="scatterplot">
-                <script>scatterPlot()</script>
             </div>
             <div id="scatter-tooltips"></div>
         </main>
@@ -89,5 +93,21 @@
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
+        <script>
+                let selectedLevel = "Grade 2-3";
+        
+                function updateData(level) {
+                    selectedLevel = level;
+                    // Remove "active" class from all items
+                    document.querySelectorAll(".form-select option").forEach((option) => {
+                        option.removeAttribute("selected");
+                    });
+                    const selectedDropdownItem = document.querySelector(`.form-select option[value="${level}"]`);
+                    selectedDropdownItem.setAttribute("selected", "selected");
+                }
+                document.addEventListener('DOMContentLoaded', function () {
+                    scatterPlot();
+                });
+            </script>
     </body>
 </html>
