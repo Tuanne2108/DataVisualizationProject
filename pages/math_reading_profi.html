@@ -3,8 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css'
-            rel='stylesheet'>
         <link rel="shortcut icon" type="x-icon"
             href="https://cdn-icons-png.flaticon.com/512/4110/4110554.png">
         <link
@@ -35,14 +33,16 @@
                                     href="/pages/home.html">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/pages/asia.html">Asia</a>
+                                <a class="nav-link" href="/pages/dashboard.html">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
+                                <a class="nav-link"
+                                    href="/pages/math_reading_profi.html">Math
+                                    and Reading Proficiency</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link disabled"
-                                    aria-disabled="true">Disabled</a>
+                                <a class="nav-link" href="#">Education
+                                    completion</a>
                             </li>
                         </ul>
                     </div>
@@ -54,18 +54,11 @@
             <div class="selection-container">
                 <div class="row row-cols-2">
                     <div class="col">
-                        <label for="educational_level">Choose educational level:</label>
-
-                    </div>
-                    <div class="col">
-                        <label for="educational_level">Choose continent:</label>
-
-                    </div>
-                    <div class="col">
                         <select id="educational_level" class="form-select"
                             aria-label="Educational Level"
                             onchange="updateData(this.value)">
-                            <option value="Grade 2-3" selected>Grade 2-3</option>
+                            <option value selected disabled>Choose educational
+                                level:</option>
                             <option value="Primary End">Primary End</option>
                             <option value="Secondary End">Secondary End</option>
                         </select>
@@ -73,6 +66,7 @@
                     <div class="col">
                         <select class="form-select" id="continentSelect"
                             aria-label="Select Continent">
+                            <option value selected>Choose continent:</option>
                             <option value="Africa">Africa</option>
                             <option value="Asia">Asia</option>
                             <option value="Europe">Europe</option>
@@ -94,8 +88,7 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
         <script>
-                let selectedLevel = "Grade 2-3";
-        
+                let selectedLevel = "";
                 function updateData(level) {
                     selectedLevel = level;
                     // Remove "active" class from all items

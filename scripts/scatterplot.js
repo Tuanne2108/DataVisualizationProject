@@ -2,17 +2,12 @@ const height = 700;
 const width = 900;
 const padding = 50;
 
-
 var rowConverter = (d) => {
     return {
         area: d["Countries and areas"],
         lat: parseFloat(d.Latitude),
         long: parseFloat(d.Longitude),
         continent: d["Continent"],
-        math_proficency_grade_mid: parseFloat(d.Grade_2_Proficiency_Math),
-        reading_proficency_grade_mid: parseFloat(
-            d.Grade_2_Proficiency_Reading
-        ),
         math_proficency_primary_end: parseFloat(d.Primary_End_Proficiency_Math),
         reading_proficency_primary_end: parseFloat(
             d.Primary_End_Proficiency_Reading
@@ -27,10 +22,7 @@ var rowConverter = (d) => {
 };
 
 function scatterPlot(data) {
-    if (!data || !Array.isArray(data)) {
-        console.error("Invalid or empty data");
-        return;
-    }
+
     data = data.filter((d) => !isNaN(d.lat) && !isNaN(d.long));
     // Select the existing scatterplot svg and remove it
     d3.select(".scatterplot svg").remove();
@@ -45,10 +37,10 @@ function scatterPlot(data) {
         .domain([
             d3.min(data, function (d) {
                 return d.lat;
-            }) || 0,
+            }),
             d3.max(data, function (d) {
                 return d.lat;
-            }) || 1,
+            }),
         ])
         .range([padding, width - padding]);
 
@@ -57,22 +49,25 @@ function scatterPlot(data) {
         .domain([
             d3.min(data, function (d) {
                 return d.long;
-            }) || 0,
+            }),
             d3.max(data, function (d) {
                 return d.long;
-            }) || 1,
+            }),
         ])
         .range([height - padding, padding]);
     const colorMap = {
-        "Grade 2-3": "blue",
         "Primary End": "#ff00ff",
         "Secondary End": "orange",
     };
     function hasBothProficiencies(d, level) {
-        const mathKey = `math_proficency_${level.replace(/\s/g, "_").toLowerCase()}`;
-        const readingKey = `reading_proficency_${level.replace(/\s/g, "_").toLowerCase()}`;
-        return d[mathKey]>0 && d[readingKey]>0;
-      }
+        const mathKey = `math_proficency_${level
+            .replace(/\s/g, "_")
+            .toLowerCase()}`;
+        const readingKey = `reading_proficency_${level
+            .replace(/\s/g, "_")
+            .toLowerCase()}`;
+        return d[mathKey] > 0 && d[readingKey] > 0;
+    }
     svg.append("g")
         .selectAll("circle")
         .data(data)
@@ -86,12 +81,12 @@ function scatterPlot(data) {
         })
         .attr("r", 5)
         .attr("fill", function (d) {
-            if (hasBothProficiencies(d, selectedLevel)) {
-              return colorMap[selectedLevel]; // Use color based on selected level
+            if (hasBothProficiencies(d, selectedLevel)&& d.area!=="Vietnam") {
+                return colorMap[selectedLevel]; // Use color based on selected level
             } else {
-              return d.area === "Vietnam" ? "red" : "grey"; // Fallback colors
+                return d.area === "Vietnam" ? "red" : "grey"; // Fallback colors
             }
-          })
+        })
         .attr("data-is-vietnam", function (d) {
             // If it's Vietnam
             return d.area === "Vietnam" ? "true" : "false";
@@ -104,10 +99,6 @@ function scatterPlot(data) {
 
             // Assuming selectedLevel is a global variable
             switch (selectedLevel) {
-                case "Grade 2-3":
-                    mathProficiency = d.math_proficency_grade_mid;
-                    readingProficiency = d.reading_proficency_grade_mid;
-                    break;
                 case "Primary End":
                     mathProficiency = d.math_proficency_primary_end;
                     readingProficiency = d.reading_proficency_primary_end;
@@ -146,13 +137,30 @@ function scatterPlot(data) {
         .attr("class", "xAxis")
         .attr("transform", "translate(0," + (height - padding) + ")")
         .call(xAxis);
+    svg.append("text")
+        .text("Latitude")
+        .attr("class", "axis-label")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", height - padding * 0.2)
+        .attr("fill", "black")
+        .attr("font-size", 14);
 
     // Create yAxis
     let yAxis = d3.axisLeft().scale(yScale);
     svg.append("g")
         .attr("class", "yAxis")
         .attr("transform", "translate(" + padding + ",0)")
-        .call(yAxis);
+        .call(yAxis)
+    svg.append("text")
+        .text("Longitude")
+        .attr("class", "axis-label")
+        .attr("text-anchor", "middle")
+        .attr("x", -height / 2)
+        .attr("y", padding / 4)
+        .attr("font-size", 14)
+        .attr("fill", "black")
+        .attr("transform", "rotate(-90)");
 }
 document.addEventListener("DOMContentLoaded", function () {
     d3.csv(
@@ -163,11 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Filter the data based on the selected level
         let filteredData = data.filter((d) => {
             switch (selectedLevel) {
-                case "Grade 2-3":
-                    return (
-                        !isNaN(d.math_proficency_grade_mid) &&
-                        !isNaN(d.reading_proficency_grade_mid)
-                    );
                 case "Primary End":
                     return (
                         !isNaN(d.math_proficency_primary_end) &&
