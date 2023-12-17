@@ -1,5 +1,6 @@
-const width = 1200;
-const height = 1000;
+const width = 800;
+const height = 700;
+const padding = 100;
 
 var rowConverter = (d) => {
     return {
@@ -15,7 +16,9 @@ function mapChart() {
         .append("svg")
         .attr("width", width)
         .attr("height", height);
-
+    function zoomed(event) {
+        svg.selectAll("path").attr("transform", event.transform);
+    }
     const selectedCountries = [
         "Nigeria",
         "South Africa",
@@ -42,7 +45,6 @@ function mapChart() {
         "France",
         "Egypt",
         "Ghana",
-        "Brazil",
         "Chile",
         "Thailand",
         "Singapore",
@@ -62,6 +64,8 @@ function mapChart() {
         .attr("class", "tooltip")
         .style("opacity", 0);
 
+    const zoom = d3.zoom().scaleExtent([1, 5]).on("zoom", zoomed);
+    svg.call(zoom);
     // Load GeoJSON data
     d3.json(
         "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"
@@ -80,10 +84,11 @@ function mapChart() {
             .data(filteredFeatures)
             .enter()
             .append("path")
-            .attr("d", path) 
+            .attr("d", path)
             .attr("stroke", "black")
             .attr("stroke-width", 1)
             .on("mouseover", function (event, d) {
+                d3.select(this).style("fill-opacity", 0.7);
                 tooltip.transition().duration(200).style("opacity", 0.9);
                 tooltip
                     .html(d.properties.name) // Display country name
@@ -91,6 +96,7 @@ function mapChart() {
                     .style("top", event.pageY - 28 + "px");
             })
             .on("mouseout", function () {
+                d3.select(this).style("fill-opacity", 1);
                 tooltip.transition().duration(200).style("opacity", 0);
             })
             .on("click", function (event, d) {
@@ -107,26 +113,27 @@ function mapChart() {
             mapOpacity(processedData);
         });
         function mapOpacity(data) {
-            const birthRate = d3.max(data, (d) => parseFloat(d.birth_rate));
-
             // Use a color scale to easily distinguish
-            const colorScale = d3
-                .scaleDiverging()
-                .interpolator(d3.interpolateRdBu)
-                .domain([0, 1500]);
+            let colorScale = d3
+                .scaleQuantile()
+                .domain(data.map((item) => item.birth_rate))
+                .range(["#ffefa5", "#febf5b", "#fd9d43", "#fc7034", "#f23d26"]);
 
             svg.selectAll("path")
                 .data(filteredFeatures)
                 .style("fill", function (d) {
                     const countryData = getDataForCountry(d.properties.name);
                     return colorScale(countryData.birth_rate);
-                })
-                .style("fill-opacity", function (d) {
-                    const countryData = getDataForCountry(d.properties.name);
-                    const normalizedOpacity =
-                        countryData.birth_rate / birthRate;
-                    return normalizedOpacity;
                 });
+            // Add legend
+            svg.append("text")
+                .text("Unemployment Rate of each countries")
+                .attr("class", "axis-label")
+                .attr("text-anchor", "middle")
+                .attr("x", width / 1.9)
+                .attr("y", height - padding * 0.4)
+                .attr("fill", "black")
+                .attr("font-size", 24);
         }
         function displayCountryData(country) {
             const countryData = getDataForCountry(country);
