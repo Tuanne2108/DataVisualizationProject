@@ -25,6 +25,14 @@ main .title {
     font-weight: 600;
     margin-bottom: 10px;
 }
+main .article{
+    font-size: 32px;
+    text-align: center;
+    font-weight: 700;
+    background-image: linear-gradient(to right, #A1C4FD, #C2E9FB);
+    margin-top: 20px;
+    color: rgb(255, 85, 46);
+}
 .map-chart {
     width: 900px;
     height: 700px;
