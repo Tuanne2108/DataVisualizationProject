@@ -63,9 +63,10 @@ main .title {
 }
 label {
     font-weight: bold;
-    margin-bottom: 5px; 
+    margin-bottom: 5px;
 }
-.form-select, #continentSelect {
-    width: 100%; 
-    margin-bottom: 10px; 
+.form-select,
+#continentSelect {
+    width: 100%;
+    margin-bottom: 10px;
 }
