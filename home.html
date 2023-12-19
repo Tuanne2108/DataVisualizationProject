@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grouped bar</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        .axis .domain {
+                display: none; 
+            }
+
+            .chart {
+                border: 1px solid;
+                border-radius: 10px;
+                display: inline-block;
+            }
+    </style>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="container"></div>
+    <h1>Grouped bar</h1>
+    <div class="chart">
+        <svg width="960" height="500"></svg>
+    </div>
+    <!-- include D3 lib-->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <!-- include script file-->
+    <script src="main.js"></script>
+    <script src="script.js"></script>
+    <!-- Selection educational level-->>
+    <form>
+    <label for="educational_level">Educational level:</label>
+    <select id="educational_level" name ="educational_level">
+        <option value ="none">--Select an Option--</option>
+        <option value ="lower">--Select an Option 1--</option>
+        <option value ="medium">--Select an Option 2--</option>
+        <option value ="high">--Select an Option 3--</option> 
+        </select> 
+  <button onclick="changeLevel()">Select Level</button>
+    </form>
+</body>
+</html>
