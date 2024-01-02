@@ -12,7 +12,7 @@ const svg = d3
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("https://raw.githubusercontent.com/Tuanne2108/DataVisualizationProject/main/Global_Education.csv").then(data => {
+d3.csv("https://raw.https://gist.githubusercontent.com/Tuanne2108/f3e20d4752299d6f408e199bea274ddb/raw/467c03104263e20c0d9a0ca3565b86844aee58c7/education.com/Tuanne2108/DataVisualizationProject/main/Global_Education.csv").then(data => {
   // Assuming your CSV file contains appropriate data columns, you can proceed to create the grouped bar chart.
 
   // Create a list of all unique Groupedbar_body_type values
@@ -106,5 +106,5 @@ d3.csv("https://raw.githubusercontent.com/Tuanne2108/DataVisualizationProject/ma
     .attr("text-anchor", "middle")
     .style("font-size", "10px")
     .style("fill", "lightgray")
-    .html("Data Source: <a href='https://raw.githubusercontent.com/Tuanne2108/DataVisualizationProject/main/Global_Education.csv' target='_blank'>https://raw.githubusercontent.com/Tuanne2108/DataVisualizationProject/main/Global_Education.csv</a>");
+    .html("Data Source: <a href='https://gist.githubusercontent.com/Tuanne2108/f3e20d4752299d6f408e199bea274ddb/raw/467c03104263e20c0d9a0ca3565b86844aee58c7/education' target='_blank'>https://raw.githubusercontent.com/Tuanne2108/DataVisualizationProject/main/Global_Education.csv</a>");
 });

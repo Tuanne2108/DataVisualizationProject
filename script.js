@@ -18,7 +18,7 @@ var z = d3.scaleOrdinal()
     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
 // Replace ".csv" with the actual path to your CSV data file
-d3.csv("https://raw.githubusercontent.com/Tuanne2108/DataVisualizationProject/main/Global_Education.csv", function (d, i, columns) {
+d3.csv("https://gist.githubusercontent.com/Tuanne2108/f3e20d4752299d6f408e199bea274ddb/raw/467c03104263e20c0d9a0ca3565b86844aee58c7/education", function (d, i, columns) {
     for (var i = 1, n = columns.length; i < n; ++i)
         d[columns[i]] = +d[columns[i]];
     return d;
