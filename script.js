@@ -1,8 +1,8 @@
 // Row converter to preprocess data
 function rowConverter(row) {
     return {
-        category: row.Latitude, // Replace with your category column name
-        value: +row.Longitude // Replace with your value column name and convert to number
+        category: row.Countries, // Replace with your category column name
+        value: +row.Latitude // Replace with your value column name and convert to number
     };
 }
 
