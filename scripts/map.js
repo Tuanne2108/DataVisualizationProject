@@ -1,6 +1,6 @@
-const width = 800;
-const height = 700;
-const padding = 100;
+const width = 1200;
+const height = 1000;
+const padding = 300;
 
 var rowConverter = (d) => {
     return {
