@@ -1,35 +1,49 @@
-var svg = d3.select("svg"),
-    margin = { top: 20, right: 20, bottom: 30, left: 40 },
-    width = +svg.attr("width") - margin.left - margin.right,
-    height = +svg.attr("height") - margin.top - margin.bottom,
-    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+// Row converter to preprocess data
+function rowConverter(row) {
+    return {
+        category: row.Latitude, // Replace with your category column name
+        value: +row.Longitude // Replace with your value column name and convert to number
+    };
+}
 
-var x0 = d3.scaleBand()
-    .rangeRound([0, width])
-    .paddingInner(0.1);
+// Load and process CSV data
+d3.csv("https://gist.githubusercontent.com/Tuanne2108/f3e20d4752299d6f408e199bea274ddb/raw/467c03104263e20c0d9a0ca3565b86844aee58c7/education", rowConverter).then(function(data) {
+    // Set dimensions and margins for the graph
+    const margin = {top: 20, right: 20, bottom: 30, left: 40},
+          width = 800 - margin.left - margin.right,
+          height = 400 - margin.top - margin.bottom;
 
-var x1 = d3.scaleBand()
-    .padding(0.05);
+    // Set the ranges
+    const x = d3.scaleBand().range([0, width]).padding(0.1);
+    const y = d3.scaleLinear().range([height, 0]);
 
-var y = d3.scaleLinear()
-    .rangeRound([height, 0]);
+    // Append the svg object to the div
+    const svg = d3.select("#bar-chart").append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                  .attr("transform", `translate(${margin.left},${margin.top})`);
 
-var z = d3.scaleOrdinal()
-    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+    // Scale the range of the data in the domains
+    x.domain(data.map(d => d.category));
+    y.domain([0, d3.max(data, d => d.value)]);
 
-// Replace ".csv" with the actual path to your CSV data file
-d3.csv("https://gist.githubusercontent.com/Tuanne2108/f3e20d4752299d6f408e199bea274ddb/raw/467c03104263e20c0d9a0ca3565b86844aee58c7/education", function (d, i, columns) {
-    for (var i = 1, n = columns.length; i < n; ++i)
-        d[columns[i]] = +d[columns[i]];
-    return d;
-}, function (error, data) {
-    if (error) throw error;
+    // Append the rectangles for the bar chart
+    svg.selectAll(".bar")
+       .data(data)
+     .enter().append("rect")
+       .attr("class", "bar")
+       .attr("x", d => x(d.category))
+       .attr("width", x.bandwidth())
+       .attr("y", d => y(d.value))
+       .attr("height", d => height - y(d.value));
 
-    var keys = data.columns.slice(1);
-    x0.domain(data.map(function (d) { return d.Gender; }));
-    x1.domain(keys).rangeRound([0, x0.bandwidth()]);
-    y.domain([0, d3.max(data, function (d) { return d3.max(keys, function (key) { return d[key]; }); })]).nice();
+    // Add the x Axis
+    svg.append("g")
+       .attr("transform", `translate(0,${height})`)
+       .call(d3.axisBottom(x));
 
-    // ... Rest of the code for creating the grouped bar chart
-
+    // Add the y Axis
+    svg.append("g")
+       .call(d3.axisLeft(y));
 });
