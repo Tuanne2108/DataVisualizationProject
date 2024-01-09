@@ -34,3 +34,16 @@ body {
   h3 {
     text-align: center;
   }
+#bar-chart {
+    max-width: 800px;
+    margin: auto;
+}
+
+.bar {
+    fill: steelblue;
+}
+
+.axis-label {
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+}
