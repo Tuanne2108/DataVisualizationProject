@@ -12,6 +12,7 @@
             crossorigin="anonymous">
         <script src="https://d3js.org/d3.v7.min.js"></script>
         <link rel="stylesheet" href="/style.css">
+        <script src="/scripts/bar_chart.js"></script>
         <title>World Education</title>
     </head>
     <body>
@@ -46,5 +47,21 @@
                 </div>
             </nav>
         </header>
+        <main style="background-color: #e0e0e0;">
+            <h1 style="display: flex; justify-content: center;">Education Completion Rate between two genders</h1>
+            <div class="barchart-controls">
+                <span style="font-size: 20px;">Choose educational level:</span>
+                <select id="datasetSelect">
+                    <option value="primary">Primary Education</option>
+                    <option value="upperSecondary">Upper Secondary
+                        Education</option>
+                </select>
+            </div>
+            <div class="Barchart">
+                <script>
+                      Barchart();
+                      </script>
+            </div>
+        </main>
     </body>
 </html>

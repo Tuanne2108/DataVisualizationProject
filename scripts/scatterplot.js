@@ -54,6 +54,7 @@ function scatterPlot(data) {
             }),
         ])
         .range([height - padding, padding]);
+
     const colorMap = {
         "Primary End": "#ff00ff",
         "Secondary End": "orange",
@@ -134,21 +135,23 @@ function scatterPlot(data) {
                 .style("top", yPosition + "px")
                 .style("opacity", 0.9);
         })
-        .on("mouseout", function () {
+        .on("mouseout", function (event, d) {
             const isVietnam =
-                d3.select(this).attr("data-is-vietnam") === "true";
+                d3.select(event.currentTarget).attr("data-is-vietnam") ===
+                "true";
             const circleColor =
                 hasBothProficiencies(d, selectedLevel) && d.area !== "Vietnam"
                     ? colorMap[selectedLevel]
                     : isVietnam
                     ? "red"
                     : "grey";
-            d3.select(this)
+
+            d3.select(event.currentTarget)
                 .transition()
                 .duration(200)
                 .attr("fill", circleColor);
-                
-            tooltip.transition().duration(200).style("opacity", 0);
+
+            tooltip.transition().duration(500).style("opacity", 0);
         });
 
     // Create xAxis
@@ -206,14 +209,10 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Initial scatterplot creation
-        scatterPlot(filteredData);
-
         // Add event listener for the change event on the continent select element
         d3.select("#continentSelect").on("change", function () {
             // Get the selected continent value
             const selectedContinent = this.value;
-
             // Update filteredData based on the selected continent
             let filteredCountries = data.filter(
                 (d) => d.continent === selectedContinent

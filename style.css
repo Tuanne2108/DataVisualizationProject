@@ -99,3 +99,17 @@ label {
     width: 100%;
     margin-bottom: 10px;
 }
+#datasetSelect {
+    
+    font-size: 20px;
+    padding: 6px; 
+    margin: 17px;
+    width: 50%;
+    border-radius: 5px;
+}
+.barchart-controls {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center !important;
+    justify-content: center !important;
+}

@@ -127,7 +127,7 @@ function mapChart() {
                 });
             // Add legend
             svg.append("text")
-                .text("Unemployment Rate of each countries")
+                .text("Unemployment Rate of each country")
                 .attr("class", "axis-label")
                 .attr("text-anchor", "middle")
                 .attr("x", width / 1.9)
