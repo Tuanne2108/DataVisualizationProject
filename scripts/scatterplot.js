@@ -22,7 +22,6 @@ var rowConverter = (d) => {
 };
 
 function scatterPlot(data) {
-
     data = data.filter((d) => !isNaN(d.lat) && !isNaN(d.long));
     // Select the existing scatterplot svg and remove it
     d3.select(".scatterplot svg").remove();
@@ -68,6 +67,12 @@ function scatterPlot(data) {
             .toLowerCase()}`;
         return d[mathKey] > 0 && d[readingKey] > 0;
     }
+    const tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
     svg.append("g")
         .selectAll("circle")
         .data(data)
@@ -81,7 +86,10 @@ function scatterPlot(data) {
         })
         .attr("r", 5)
         .attr("fill", function (d) {
-            if (hasBothProficiencies(d, selectedLevel)&& d.area!=="Vietnam") {
+            if (
+                hasBothProficiencies(d, selectedLevel) &&
+                d.area !== "Vietnam"
+            ) {
                 return colorMap[selectedLevel]; // Use color based on selected level
             } else {
                 return d.area === "Vietnam" ? "red" : "grey"; // Fallback colors
@@ -112,14 +120,16 @@ function scatterPlot(data) {
                     readingProficiency = 0;
             }
 
-            d3.select("#scatter-tooltips")
+            tooltip
                 .html(
                     `<p><strong>${d.area}</strong></p>
-                    <p>Math Proficiency (${selectedLevel}): ${mathProficiency} thousands</p>
-                    <p>Reading Proficiency (${selectedLevel}): ${readingProficiency} thousands</p>
-                    <p>Latitude: ${d.lat}</p>
-                    <p>Longitude: ${d.long}</p>`
+                <p>Math Proficiency (${selectedLevel}): ${mathProficiency} thousands</p>
+                <p>Reading Proficiency (${selectedLevel}): ${readingProficiency} thousands</p>
+                <p>Latitude: ${d.lat}</p>
+                <p>Longitude: ${d.long}</p>`
                 )
+                .transition()
+                .duration(200)
                 .style("left", xPosition + "px")
                 .style("top", yPosition + "px")
                 .style("opacity", 0.9);
@@ -127,8 +137,18 @@ function scatterPlot(data) {
         .on("mouseout", function () {
             const isVietnam =
                 d3.select(this).attr("data-is-vietnam") === "true";
-            d3.select(this).attr("fill", isVietnam ? "red" : "grey");
-            d3.select("#scatter-tooltips").style("opacity", 0);
+            const circleColor =
+                hasBothProficiencies(d, selectedLevel) && d.area !== "Vietnam"
+                    ? colorMap[selectedLevel]
+                    : isVietnam
+                    ? "red"
+                    : "grey";
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr("fill", circleColor);
+                
+            tooltip.transition().duration(200).style("opacity", 0);
         });
 
     // Create xAxis
@@ -151,7 +171,7 @@ function scatterPlot(data) {
     svg.append("g")
         .attr("class", "yAxis")
         .attr("transform", "translate(" + padding + ",0)")
-        .call(yAxis)
+        .call(yAxis);
     svg.append("text")
         .text("Longitude")
         .attr("class", "axis-label")
